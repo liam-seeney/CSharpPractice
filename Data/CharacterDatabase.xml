@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CharacterDatabase>
+	<Characters>
+		<Npc id="villager_1">
+			<Name>Phil</Name>
+		</Npc>
+		<Npc id="villager_2">
+			<Name>Dave</Name>
+		</Npc>
+		<Trader id="trader_1">
+			<Name>Chrissy</Name>
+			<TraderType>General</TraderType>
+		</Trader>
+		<Trader id="trader_2">
+			<Name>James</Name>
+			<TraderType>Weapons</TraderType>
+		</Trader>
+	</Characters>
+</CharacterDatabase>

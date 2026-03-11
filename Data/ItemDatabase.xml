@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ItemDatabase>
+	<Items>
+
+		<Weapon id="weapon_sword_basic">
+			<Name>Iron Sword</Name>
+			<Damage>15</Damage>
+			<Value>25</Value>
+		</Weapon>
+		
+		<Weapon id="weapon_sword_Bronze">
+			<Name>Bronze Sword</Name>
+			<Damage>20</Damage>
+			<Value>30</Value>
+		</Weapon>
+
+		<Consumable id="consumable_apple">
+			<Name>Apple</Name>
+			<Effect>Healing</Effect>
+			<EffectAmount>5</EffectAmount>
+			<StackSize>10</StackSize>
+		</Consumable>
+
+		<Consumable id="consumable_bread">
+			<Name>Bread</Name>
+			<Effect>Healing</Effect>
+			<EffectAmount>10</EffectAmount>
+			<StackSize>5</StackSize>
+		</Consumable>
+
+		<Consumable id="consumable_fish">
+			<Name>Fish</Name>
+			<Effect>Healing</Effect>
+			<EffectAmount>20</EffectAmount>
+			<StackSize>5</StackSize>
+		</Consumable>
+
+	</Items>
+</ItemDatabase>
