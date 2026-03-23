@@ -7,4 +7,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<Content Include="Data\*.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<Link>Data\%(Filename)%(Extension)</Link>
+		</Content>
+	</ItemGroup>
+
 </Project>
