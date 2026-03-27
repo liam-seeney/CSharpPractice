@@ -4,86 +4,27 @@ using CSharpPractice.DTOs.ItemDtos;
 using CSharpPractice.Models.Characters;
 using CSharpPractice.Models.Items;
 
-Inventory inventory = new();
-Population characters = new();
+CharacterDatabaseDto characterData = SeedData.Load<CharacterDatabaseDto>(SeedData.DataFilePath("CharacterDatabase.xml"));
+ItemDatabaseDto itemData = SeedData.Load<ItemDatabaseDto>(SeedData.DataFilePath("ItemDatabase.xml"));
 
-ItemDatabaseDto itemData = SeedData.LoadItems(ResolveDataFilePath("ItemDatabase.xml"));
-CharacterDatabaseDto characterData = SeedData.LoadCharacters(ResolveDataFilePath("CharacterDatabase.xml"));
+DataLoader dataLoader = new(characterData, itemData);
 
-foreach (ItemDto dto in itemData.Items)
+Inventory inventory = dataLoader.LoadInventory();
+Population population = dataLoader.LoadPopulation();
+
+foreach (Character character in population.Characters)
 {
-    inventory.Items.Add(MapItem(dto));
-}
-
-foreach (CharacterDto dto in characterData.Characters)
-{
-    characters.Characters.Add(MapCharacter(dto));
-}
-
-foreach (Character character in characters.Characters)
-{
+  if (character is Trader trader)
+  {
+    Console.WriteLine($"{character.Name} is a {trader.TraderType} trader");
+  }
+  else
+  {
     Console.WriteLine(character.Name);
+  }
 }
 
 foreach (Item item in inventory.Items)
 {
-    Console.WriteLine(item.Name);
-}
-
-Inventory randomItems = new()
-{
-  Items = PickRandomItems(inventory.Items, 2)
-};
-
-string itemList = string.Join(", ", randomItems.Items.Select(i => i.Name));
-
-Console.WriteLine($"The chest contains {itemList}.");
-
-static List<Item> PickRandomItems(List<Item> items, int count)
-{
-    if (count > items.Count)
-    {
-        throw new ArgumentException("Not enough items", nameof(count));
-    }
-
-    Random rng = Random.Shared;
-
-    return [.. items.OrderBy(_ => rng.Next()).Take(count)];
-}
-
-static Item MapItem(ItemDto dto) => dto switch
-{
-  WeaponDto w => new Weapon(w.Id, w.Name, w.Damage, w.Value),
-  ConsumableDto c => new Consumable(c.Id, c.Name, c.Value, c.Effect, c.EffectAmount, c.StackSize),
-  _ => throw new InvalidOperationException($"Unknown item DTO type: {dto.GetType().FullName}")
-};
-
-static Character MapCharacter(CharacterDto dto) => dto switch
-{
-  VillagerDto n => new Villager(n.Id, n.Name),
-  TraderDto t => new Trader(t.Id, t.Name, t.TraderType),
-  _ => throw new InvalidOperationException($"Unknown character DTO type: {dto.GetType().FullName}")
-};
-
-static string ResolveDataFilePath(string fileName)
-{
-  string[] candidatePaths =
-  [
-      Path.Combine(AppContext.BaseDirectory, "Data", fileName),
-        Path.Combine(Directory.GetCurrentDirectory(), "Data", fileName),
-        Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "Data", fileName)),
-        Path.Combine(AppContext.BaseDirectory, fileName)
-  ];
-
-  foreach (string candidatePath in candidatePaths)
-  {
-    if (File.Exists(candidatePath))
-    {
-      Console.WriteLine(candidatePath);
-      return candidatePath;
-    }
-  }
-
-  throw new FileNotFoundException(
-      $"Could not locate '{fileName}'. Tried: {string.Join(", ", candidatePaths)}");
+  Console.WriteLine(item.Name);
 }

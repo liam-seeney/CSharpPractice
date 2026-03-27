@@ -7,37 +7,34 @@ namespace CSharpPractice.Data;
 
 public static class SeedData
 {
-  public static CharacterDatabaseDto LoadCharacters(string path)
+  public static T Load<T>(string path)
   {
-    XmlSerializer serializer = new(typeof(CharacterDatabaseDto));
+    XmlSerializer serializer = new(typeof(T));
+    
     using FileStream stream = File.OpenRead(path);
 
     XmlReaderSettings settings = new()
     {
       DtdProcessing = DtdProcessing.Prohibit,
-      XmlResolver = null
+      XmlResolver = null,
     };
 
     using XmlReader reader = XmlReader.Create(stream, settings);
 
-    CharacterDatabaseDto? dto = (CharacterDatabaseDto?)serializer.Deserialize(reader);
-    return dto ?? throw new InvalidOperationException("Failed to deserialize CharacterDatabase.xml");
+    T? dto = (T?)serializer.Deserialize(reader);
+
+    return dto ?? throw new InvalidOperationException($"Failed to deserialize {typeof(T).Name}");
   }
 
-  public static ItemDatabaseDto LoadItems(string path)
+  public static string DataFilePath(string fileName)
   {
-    XmlSerializer serializer = new(typeof(ItemDatabaseDto));
-    using FileStream stream = File.OpenRead(path);
+    string path = Path.Combine(AppContext.BaseDirectory, "Data", fileName);
 
-    XmlReaderSettings settings = new()
+    if (!File.Exists(path))
     {
-      DtdProcessing = DtdProcessing.Prohibit,
-      XmlResolver = null
-    };
+      throw new FileNotFoundException($"Could not locate {fileName} at {path}.");
+    }
 
-    using XmlReader reader = XmlReader.Create(stream, settings);
-
-    ItemDatabaseDto? dto = (ItemDatabaseDto?)serializer.Deserialize(reader);
-    return dto ?? throw new InvalidOperationException("Failed to deserialize ItemDatabase.xml");
+    return path;
   }
 }

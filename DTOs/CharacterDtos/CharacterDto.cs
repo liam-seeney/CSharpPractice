@@ -2,6 +2,8 @@
 
 namespace CSharpPractice.DTOs.CharacterDtos;
 
+[XmlInclude(typeof(VillagerDto))]
+[XmlInclude(typeof(TraderDto))]
 public abstract class CharacterDto
 {
   [XmlAttribute("id")]

@@ -6,8 +6,8 @@ namespace CSharpPractice.DTOs.CharacterDtos;
 public class CharacterDatabaseDto
 {
   [XmlArray("Characters")]
-  [XmlArrayItem(typeof(VillagerDto))]
-  [XmlArrayItem(typeof(TraderDto))]
+  [XmlArrayItem("Npc", typeof(VillagerDto))]
+  [XmlArrayItem("Trader", typeof(TraderDto))]
   public List<CharacterDto> Characters { get; set; } = [];
 }
 
